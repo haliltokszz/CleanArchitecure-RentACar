@@ -10,7 +10,7 @@ public class OperationClaim : Entity
     {
     }
 
-    public OperationClaim(int id, string name) : base(id)
+    public OperationClaim(Guid id, string name) : base(id)
     {
         Name = name;
     }

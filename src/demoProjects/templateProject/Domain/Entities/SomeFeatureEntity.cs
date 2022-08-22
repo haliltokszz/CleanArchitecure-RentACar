@@ -16,7 +16,7 @@ namespace Domain.Entities
             
         }
 
-        public SomeFeatureEntity(int id, string name) : this()
+        public SomeFeatureEntity(Guid id, string name) : this()
         {
             Id = id;
             Name = name;
