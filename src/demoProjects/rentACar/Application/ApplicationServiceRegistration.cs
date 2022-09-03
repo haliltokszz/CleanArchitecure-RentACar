@@ -5,6 +5,9 @@ using Core.Application.Pipelines.Validation;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
+using Application.Features.Brands.Commands.CreateBrand;
+using Application.Features.Brands.Rules;
+using FluentValidation;
 
 namespace Application;
 
@@ -15,9 +18,9 @@ public static class ApplicationServiceRegistration
         services.AddAutoMapper(Assembly.GetExecutingAssembly());
         services.AddMediatR(Assembly.GetExecutingAssembly());
 
-        //services.AddScoped<SomeFeatureEntityBusinessRules>();
+        services.AddScoped<BrandBusinessRules>();
 
-        //services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
+        services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
         services.AddTransient(typeof(IPipelineBehavior<,>), typeof(AuthorizationBehavior<,>));
         services.AddTransient(typeof(IPipelineBehavior<,>), typeof(CachingBehavior<,>));
         services.AddTransient(typeof(IPipelineBehavior<,>), typeof(CacheRemovingBehavior<,>));
