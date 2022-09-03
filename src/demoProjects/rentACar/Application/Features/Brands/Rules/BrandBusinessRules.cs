@@ -19,4 +19,8 @@ public class BrandBusinessRules
         IPaginate<Brand> result = await _brandRepository.GetListAsync(b => b.Name == name);
         if (result.Items.Any()) throw new BusinessException($"Brand name exists."); //TODO: Localize message and add to resources.
     }
+    public void BrandShouldExistWhenRequested(Brand brand)
+    {
+        if (brand==null) throw new BusinessException($"Requested brand does not exist"); //TODO: Localize message and add to resources.
+    }
 }
