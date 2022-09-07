@@ -32,9 +32,23 @@ public class ExceptionMiddleware
 
         if (exception.GetType() == typeof(ValidationException)) return CreateValidationException(context, exception);
         if (exception.GetType() == typeof(BusinessException)) return CreateBusinessException(context, exception);
-        if (exception.GetType() == typeof(AuthorizationException))
-            return CreateAuthorizationException(context, exception);
+        if (exception.GetType() == typeof(AuthorizationException)) return CreateAuthorizationException(context, exception);
+        if (exception.GetType() == typeof(InvalidOperationException)) return CreateInvalidOperationException(context, exception);
         return CreateInternalException(context, exception);
+    }
+
+    private Task CreateInvalidOperationException(HttpContext context, Exception exception)
+    {
+        context.Response.StatusCode = Convert.ToInt32(HttpStatusCode.Unauthorized);
+
+        return context.Response.WriteAsync(new InvalidOperationProblemDetails()
+        {
+            Status = StatusCodes.Status401Unauthorized,
+            Type = "https://example.com/probs/invalid-operation",
+            Title = "Invalid operation exception",
+            Detail = exception.Message + " Inner Exception: " + exception.InnerException?.Message,
+            Instance = ""
+        }.ToString());
     }
 
     private Task CreateAuthorizationException(HttpContext context, Exception exception)
